@@ -2,6 +2,7 @@ package logger
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/fluent/fluent-logger-golang/fluent"
@@ -132,9 +133,10 @@ func (w *fluentWriter) constructTag(msg map[string]interface{}, p []byte) string
 func (w *fluentWriter) send(tag string, msg map[string]interface{}, length int) (n int, err error) {
 	err = w.fluentSender.Post(tag, msg)
 	if err != nil {
-		// print to stdout as a fallback
-		fmt.Printf("Failed to send: %v\n", msg)
-		return length, nil
+		// add LOGGING_ERROR to msg map and send it back as err
+		msg["LOGGING_ERROR"] = err
+		jsMsg, _ := json.Marshal(msg)
+		err = errors.New(string(jsMsg))
 	}
-	return 0, err
+	return length, err
 }
