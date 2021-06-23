@@ -134,7 +134,7 @@ func (w *fluentWriter) send(tag string, msg map[string]interface{}, length int) 
 	err = w.fluentSender.Post(tag, msg)
 	if err != nil {
 		// add LOGGING_ERROR to msg map and send it back as err
-		msg["LOGGING_ERROR"] = err
+		msg["LOGGING_ERROR"] = err.Error()
 		jsMsg, _ := json.Marshal(msg)
 		err = errors.New(string(jsMsg))
 	}
