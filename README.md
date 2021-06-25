@@ -1,14 +1,14 @@
-# fluent-logger-io-writer [![GoDoc](https://godoc.org/github.com/awslabs/fluent-golang-io-writer?status.svg)](https://godoc.org/github.com/awslabs/fluent-golang-io-writer)
+# fluent-logger-io-writer [![GoDoc](https://godoc.org/github.com/fumui/fluent-golang-io-writer?status.svg)](https://godoc.org/github.com/fumui/fluent-golang-io-writer)
 
 *This library is covered in an AWS Open Source blog post: [Splitting an application’s logs into multiple streams: a Fluent tutorial](https://aws.amazon.com/blogs/opensource/splitting-application-logs-multiple-streams-fluent/)*
 
-This library was created to demonstrate a somewhat experimental idea. If you end up using it (or write your own similar code), [please plus one this issue to let us know](https://github.com/awslabs/fluent-golang-io-writer/issues/1). Thoughts/comments/feedback also welcome.
+This library was created to demonstrate a somewhat experimental idea. Forked from https://github.com/awslabs/fluent-golang-io-writer, to fix a few problem such as:
+- `err: Short write` because writer didn't return bytes written on successful write
+- writer return error of json marshalled `map[string]interface{}` of failed log and a field `LOGGING_ERROR` to describe the original error
 
 ### What is it?
 
-Go Code that wraps the fluent-logger-golang in a struct that implements [io.Writer](https://golang.org/pkg/io/).
-
-This means it can be used as the underlying io stream for many loggers. See [main.go](main.go) for full example usage.
+Go Code that wraps the fluent-logger-golang in a struct that implements [io.Writer](https://golang.org/pkg/io/). This means it can be used as the underlying io stream for many loggers.
 
 Simple example with the popular `sirupsen/logrus` logger:
 
@@ -16,7 +16,7 @@ Simple example with the popular `sirupsen/logrus` logger:
 import (
 	"fmt"
 
-	"github.com/awslabs/fluent-golang-io-writer/logger"
+	"github.com/fumui/fluent-golang-io-writer/logger"
 
 	"github.com/fluent/fluent-logger-golang/fluent"
 	"github.com/sirupsen/logrus"
